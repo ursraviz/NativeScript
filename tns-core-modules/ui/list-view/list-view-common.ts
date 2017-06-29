@@ -1,5 +1,5 @@
-﻿import { ListView as ListViewDefinition, ItemsSource } from ".";
-import { CoercibleProperty, CssProperty, Style, View, Template, KeyedTemplate, Length, Property, Color, Observable } from "../core/view";
+﻿import { ListView as ListViewDefinition, ItemsSource, ItemEventData } from ".";
+import { CoercibleProperty, CssProperty, Style, View, Template, KeyedTemplate, Length, Property, Color, Observable, EventData } from "../core/view";
 import { parse, parseMultipleTemplates } from "../builder";
 import { Label } from "../label";
 import { ObservableArray, ChangedData } from "../../data/observable-array";
@@ -129,7 +129,12 @@ export abstract class ListViewBase extends View implements ListViewDefinition {
         rowHeightProperty.coerce(this);
     }
 }
-
+export interface ListViewBase {
+    on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
+    on(event: "itemLoading", callback: (args: ItemEventData) => void, thisArg?: any);
+    on(event: "itemTap", callback: (args: ItemEventData) => void, thisArg?: any);
+    on(event: "loadMoreItems", callback: (args: EventData) => void, thisArg?: any);
+}
 // ListViewBase.prototype.recycleNativeView = true;
 
 /**
